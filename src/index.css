@@ -1,0 +1,33 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.bg-tennis-pattern {
+  background-color: #f8fafc;
+  background-image: radial-gradient(
+    circle at center,
+    rgba(200, 240, 72, 0.1) 0%,
+    rgba(200, 240, 72, 0.05) 25%,
+    transparent 25%
+  );
+  background-size: 24px 24px;
+  background-position: 0 0, 12px 12px;
+}
+
+/* Animation pour les balles de tennis */
+@keyframes bounce {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+.animate-bounce-delayed {
+  animation: bounce 1s infinite 200ms;
+}
+
+.animate-bounce-delayed-2 {
+  animation: bounce 1s infinite 400ms;
+}

@@ -1,0 +1,37 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function isAuth() {
+      return request.auth != null;
+    }
+
+    function isAdmin() {
+      return isAuth() && request.auth.token.email == 'contact@studiopixl.fr';
+    }
+
+    match /matches/{matchId} {
+      allow read: if true;
+      allow create: if isAuth();
+      allow update, delete: if isAuth() && (
+        resource.data.player1Id == request.auth.uid ||
+        resource.data.player2Id == request.auth.uid ||
+        isAdmin()
+      );
+    }
+
+    match /players/{playerId} {
+      allow read: if true;
+      allow create: if isAdmin();
+      allow update: if isAuth() && (
+        request.auth.uid == playerId ||
+        isAdmin()
+      );
+      allow delete: if isAdmin();
+    }
+
+    match /announcements/{announcementId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+  }
+}
